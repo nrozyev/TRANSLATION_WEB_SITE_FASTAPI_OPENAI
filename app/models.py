@@ -11,13 +11,13 @@ class TranslationTask(Base):
     languages = Column(JSON, nullable=False)
     status = Column(String, default="in progress", nullable=False)
     translation = Column(JSON, default={})
-    created_at = Column(DateTime, default=datetime.now(datetime.timezone.utc))
-    updated_at = Column(DateTime, default=datetime.now(datetime.timezone.utc), onupdate=datetime.now(datetime.timezone.utc))
+    created_at = Column(DateTime, default=lambda: datetime.now(timezone.utc))
+    updated_at = Column(DateTime, default=lambda: datetime.now(timezone.utc), onupdate=lambda: datetime.now(timezone.utc))
 
 class TranslationResult(Base):
     __tablename__ = "translation_results"
     id = Column(Integer, primary_key=True, index=True)
-    request_id = Column(Integer, ForeignKey("translation_requests.id"), nullable=False)
+    request_id = Column(Integer, ForeignKey("translation_tasks.id"), nullable=False)
     language = Column(String, nullable=False)
     translated_text = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
@@ -25,10 +25,10 @@ class TranslationResult(Base):
 class IndividualTranslations(Base):
     __tablename__ = "individual_translations"
     id = Column(Integer, primary_key=True, index=True)
-    request_id = Column(Integer, ForeignKey("translation_requests.id"), nullable=False)
+    request_id = Column(Integer, ForeignKey("translation_tasks.id"), nullable=False)
     translated_text = Column(String, nullable=False)
     created_at = Column(DateTime, default=datetime.utcnow)
 
 # to ensure tables are created in the database
-engine = create_engine("postgresql+psycopg2://postgres:0000@localhost:5432/alphaloops_translator")
+engine = create_engine("postgresql+psycopg2://postgres:postgres@localhost:5432/translation_service")
 Base.metadata.create_all(engine)

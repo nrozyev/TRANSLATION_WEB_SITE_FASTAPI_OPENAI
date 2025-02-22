@@ -70,7 +70,7 @@
     <div class="container form-container">
       <div class="form-box">
         <label for="text" class="form-label">Text to Translate</label>
-        <textarea id="text" class="form-control" rows="10"></textarea>
+        <textarea id="TextToTranslate" class="form-control" rows="10"></textarea>
       </div>
       <div class="form-box">
         <label for="languages" class="form-label">Languages</label>
@@ -79,7 +79,7 @@
       </div>
 
       <div class="btn-container">
-        <button class="btn btn-primary" onclick="translateText()">Translate</button>
+        <button class="btn btn-primary" onclick="submitTranslation()">Translate</button>
       </div>
       
       <div class="mt-4" id="results" style="display: none;">
@@ -127,10 +127,12 @@
 
   <script>
     async function submitTranslation(){
-      const text = document.getElementById('Text to Translate').value;
-      const languages = document.getElementById('Languages').value;
+      const text = document.getElementById('TextToTranslate').value;
+      const languages = document.getElementById('languages').value;
+      console.log(text);
+      console.log(eval(languages === 0));
 
-      if (!text || languages === 0 || languages[0]){
+      if (!text || languages === 0 || !languages[0]){
         alert("Please provide both text and target language.");
         return;
       }
@@ -143,7 +145,7 @@
       progressText.textContent = 'Translation in progress...';
 
       try {
-        const response = await axios.post('localhost:8000/translate',{
+        const response = await axios.post(`http://localhost:8000/translate`,{
           text: text,
           languages: languages,
         });

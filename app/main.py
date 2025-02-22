@@ -1,19 +1,19 @@
 import logging
 from fastapi import FastAPI, BackgroundTasks, HTTPException, Depends, Request, status
-from fastapi.responses import HTMLResponse
+from fastapi.responses import HTMLResponse, RedirectResponse
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 import crud
 
-from schemas import *
+from schemas import TranslationRequestSchema, TaskResponseSchema, TranslationStatusSchema
 from typing import List
-from utils import translate_text, process_translations
+from utility import perform_translation
 
 # db related #  #
 from database import engine, SessionLocal, get_db
 import models 
-from models import TranslationRequest, TranslationResult, IndividualTranslations
+from models import TranslationTask, TranslationResult, IndividualTranslations
 models.Base.metadata.create_all(engine)
 #       #       #
 
@@ -36,8 +36,12 @@ app.add_middleware(
 
 templates = Jinja2Templates(directory="templates")
 
+@app.get("/")
+def root():
+    return RedirectResponse(url="/index")
+
 @app.get("/index", response_class=HTMLResponse)
-async def read_index(request: Request):
+def read_index(request: Request):
     return templates.TemplateResponse("index.html", {"request": request})
 
 ############################################################################
@@ -79,42 +83,31 @@ async def read_index(request: Request):
 #     return {"id": request_data.id, "status": request_data.status}
 
 
-@app.post("/translate", response_model = schemas.TaskResponseSchema)
-async def translate(request: schemas.TranslationRequestSchema, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
+@app.post("/translate", response_model = TaskResponseSchema)
+def translate(request: TranslationRequestSchema, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
 
-    task = crud.create_translation_task(get_db.db, request.text, request.languages)
-    print(request.text)
-    print(request.languages)
+    task = crud.create_translation_task(db, request.text, request.languages)
+    background_tasks.add_task(perform_translation, task.id, request.text, request.languages, db)
 
-    # requests above is a pydantic model, my_dict below is a dict, incase you need to use one or another
-    my_dict = request.model_dump()
-#     print(my_dict)
-    ########################################################
-    ########################################################
-
-    request_data = models.TranslationRequest(
-        text=request.text,
-        languages=request.languages)
-    db.add(request_data)
-    db.commit()
-    db.refresh(request_data)
-
-    #background_tasks.add_task(process_translations, request_data.id, request.text, request.languages)
-    return {"payload": request_data}
+    return {"task_id": task.id}
 
 
+@app.get("/translate/{task_id}", response_model = TranslationStatusSchema)
+def get_translate(task_id: int,  db: Session = Depends(get_db)):
+    
 
+    task = crud.get_translation_task(db, task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    return {"task_id": task.id, "status": task.status, "translation": task.translations}
 
-############################################################################
-############################################################################
-############################################################################
-############################################################################
-@app.get("/translate/{request_id}")
-async def get_translation_status(request_id: int, request: Request, db: Session = Depends(get_db)):
-    request_obj = db.query(TranslationRequest).filter(TranslationRequest.id == request_id).first()
-    if not request_obj:
-        raise HTTPException(status_code=404, detail="Request not found")
-    if request_obj.status == "in progress":
-        return {"status": request_obj.status}
-    translations = db.query(TranslationResult).filter(TranslationResult.request_id == request_id).all()
-    return templates.TemplateResponse("results.html", {"request": request, "translations": translations})
+@app.get("/translate/content/{task_id}", response_model = TranslationStatusSchema)
+def get_translate_content(task_id: int,  db: Session = Depends(get_db)):
+    
+
+    task = crud.get_translation_task(db, task_id)
+    if not task:
+        raise HTTPException(status_code=404, detail="Task not found")
+    
+    return {task}

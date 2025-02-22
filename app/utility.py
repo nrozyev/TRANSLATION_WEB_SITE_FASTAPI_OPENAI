@@ -23,4 +23,13 @@ def perform_translation(task: int, text: str, Languages:list, db: Session):
                 temperature=0.7,
                 n=1,
             )
-            translations[lang] = response.choices[0].text.strip()
+            translated_text = response['choices'][0]['message']['content'].strip()
+            translations[lang] = translated_text
+        except Exception as e:
+            print(f"Error translating to {lang}: {e}")
+            translations[lang] = f"Error:{e}"
+        except Exception as e:
+            print(f"Unexpected error: {e}")
+            translations[lang] = f"Unexpected error: {e}"
+            update_translation_task(db, task_id, translations)
+
