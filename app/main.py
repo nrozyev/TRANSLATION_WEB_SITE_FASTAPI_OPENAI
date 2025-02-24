@@ -23,7 +23,8 @@ models.Base.metadata.create_all(engine)
 app = FastAPI()
 
 # Configure logging
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(filename="program.log", level=logging.INFO)
+logging.log(logging.INFO, "beginning program")
 
 # Add CORS middleware
 app.add_middleware(
@@ -85,7 +86,7 @@ def read_index(request: Request):
 
 @app.post("/translate", response_model = TaskResponseSchema)
 def translate(request: TranslationRequestSchema, background_tasks: BackgroundTasks, db: Session = Depends(get_db)):
-
+    logging.log(logging.INFO, "I am in translate route")
     task = crud.create_translation_task(db, request.text, request.languages)
     background_tasks.add_task(perform_translation, task.id, request.text, request.languages, db)
 

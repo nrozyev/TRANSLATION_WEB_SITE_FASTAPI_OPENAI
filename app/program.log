@@ -1,0 +1,140 @@
+INFO:root:beginning
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:sqlalchemy.engine.Engine:select pg_catalog.version()
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+INFO:sqlalchemy.engine.Engine:select current_schema()
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+INFO:sqlalchemy.engine.Engine:show standard_conforming_strings
+INFO:sqlalchemy.engine.Engine:[raw sql] {}
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00048s] {'table_name': 'translation_tasks', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+INFO:sqlalchemy.engine.Engine:SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.002511s ago] {'table_name': 'translation_results', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+INFO:sqlalchemy.engine.Engine:SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = %(table_name)s AND pg_catalog.pg_class.relkind = ANY (ARRAY[%(param_1)s, %(param_2)s, %(param_3)s, %(param_4)s, %(param_5)s]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != %(nspname_1)s
+INFO:sqlalchemy.engine.Engine:[cached since 0.003428s ago] {'table_name': 'individual_translations', 'param_1': 'r', 'param_2': 'p', 'param_3': 'f', 'param_4': 'v', 'param_5': 'm', 'nspname_1': 'pg_catalog'}
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:root:Creating translation task
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:root:Creating translation task
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO translation_tasks (text, languages, status, translation, created_at, updated_at) VALUES (%(text)s, %(languages)s::JSON, %(status)s, %(translation)s::JSON, %(created_at)s, %(updated_at)s) RETURNING translation_tasks.id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00050s] {'text': 'how are you', 'languages': '["german", "english"]', 'status': 'in progress', 'translation': '{}', 'created_at': datetime.datetime(2025, 2, 24, 19, 54, 29, 193253, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2025, 2, 24, 19, 54, 29, 193257, tzinfo=datetime.timezone.utc)}
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id, translation_tasks.text, translation_tasks.languages, translation_tasks.status, translation_tasks.translation, translation_tasks.created_at, translation_tasks.updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] {'pk_1': 1}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id AS translation_tasks_id, translation_tasks.text AS translation_tasks_text, translation_tasks.languages AS translation_tasks_languages, translation_tasks.status AS translation_tasks_status, translation_tasks.translation AS translation_tasks_translation, translation_tasks.created_at AS translation_tasks_created_at, translation_tasks.updated_at AS translation_tasks_updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00063s] {'id_1': 1, 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:root:Creating translation task
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO translation_tasks (text, languages, status, translation, created_at, updated_at) VALUES (%(text)s, %(languages)s::JSON, %(status)s, %(translation)s::JSON, %(created_at)s, %(updated_at)s) RETURNING translation_tasks.id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00040s] {'text': 'how are you', 'languages': '["german", "english"]', 'status': 'in progress', 'translation': '{}', 'created_at': datetime.datetime(2025, 2, 24, 20, 0, 26, 960530, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2025, 2, 24, 20, 0, 26, 960534, tzinfo=datetime.timezone.utc)}
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id, translation_tasks.text, translation_tasks.languages, translation_tasks.status, translation_tasks.translation, translation_tasks.created_at, translation_tasks.updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00055s] {'pk_1': 2}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:I am in perform translation
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id AS translation_tasks_id, translation_tasks.text AS translation_tasks_text, translation_tasks.languages AS translation_tasks_languages, translation_tasks.status AS translation_tasks_status, translation_tasks.translation AS translation_tasks_translation, translation_tasks.created_at AS translation_tasks_created_at, translation_tasks.updated_at AS translation_tasks_updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00065s] {'id_1': 2, 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:root:Creating translation task
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO translation_tasks (text, languages, status, translation, created_at, updated_at) VALUES (%(text)s, %(languages)s::JSON, %(status)s, %(translation)s::JSON, %(created_at)s, %(updated_at)s) RETURNING translation_tasks.id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00037s] {'text': 'how are you', 'languages': '["german", "russian"]', 'status': 'in progress', 'translation': '{}', 'created_at': datetime.datetime(2025, 2, 24, 20, 4, 36, 340758, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2025, 2, 24, 20, 4, 36, 340761, tzinfo=datetime.timezone.utc)}
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id, translation_tasks.text, translation_tasks.languages, translation_tasks.status, translation_tasks.translation, translation_tasks.created_at, translation_tasks.updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00036s] {'pk_1': 3}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:I am in perform
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id AS translation_tasks_id, translation_tasks.text AS translation_tasks_text, translation_tasks.languages AS translation_tasks_languages, translation_tasks.status AS translation_tasks_status, translation_tasks.translation AS translation_tasks_translation, translation_tasks.created_at AS translation_tasks_created_at, translation_tasks.updated_at AS translation_tasks_updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00080s] {'id_1': 3, 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:beginning program
+INFO:root:I am in translate route
+INFO:root:Creating translation task
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:INSERT INTO translation_tasks (text, languages, status, translation, created_at, updated_at) VALUES (%(text)s, %(languages)s::JSON, %(status)s, %(translation)s::JSON, %(created_at)s, %(updated_at)s) RETURNING translation_tasks.id
+INFO:sqlalchemy.engine.Engine:[generated in 0.00050s] {'text': 'how are you', 'languages': '["german", "russian"]', 'status': 'in progress', 'translation': '{}', 'created_at': datetime.datetime(2025, 2, 24, 20, 25, 26, 987855, tzinfo=datetime.timezone.utc), 'updated_at': datetime.datetime(2025, 2, 24, 20, 25, 26, 987858, tzinfo=datetime.timezone.utc)}
+INFO:sqlalchemy.engine.Engine:COMMIT
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id, translation_tasks.text, translation_tasks.languages, translation_tasks.status, translation_tasks.translation, translation_tasks.created_at, translation_tasks.updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(pk_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00041s] {'pk_1': 4}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:root:I am in perform
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:openai._base_client:Retrying request to /chat/completions in 0.386771 seconds
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:openai._base_client:Retrying request to /chat/completions in 0.990806 seconds
+INFO:sqlalchemy.engine.Engine:BEGIN (implicit)
+INFO:sqlalchemy.engine.Engine:SELECT translation_tasks.id AS translation_tasks_id, translation_tasks.text AS translation_tasks_text, translation_tasks.languages AS translation_tasks_languages, translation_tasks.status AS translation_tasks_status, translation_tasks.translation AS translation_tasks_translation, translation_tasks.created_at AS translation_tasks_created_at, translation_tasks.updated_at AS translation_tasks_updated_at 
+FROM translation_tasks 
+WHERE translation_tasks.id = %(id_1)s 
+ LIMIT %(param_1)s
+INFO:sqlalchemy.engine.Engine:[generated in 0.00086s] {'id_1': 4, 'param_1': 1}
+INFO:sqlalchemy.engine.Engine:ROLLBACK
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:openai._base_client:Retrying request to /chat/completions in 0.459731 seconds
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:openai._base_client:Retrying request to /chat/completions in 0.861090 seconds
+INFO:httpx:HTTP Request: POST https://api.openai.com/v1/chat/completions "HTTP/1.1 429 Too Many Requests"
+INFO:root:beginning program
+INFO:root:beginning program

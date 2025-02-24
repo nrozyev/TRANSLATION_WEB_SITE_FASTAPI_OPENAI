@@ -1,7 +1,11 @@
 from sqlalchemy.orm import Session
 import models
+import logging
+
+
 
 def create_translation_task(db: Session, text:str, Languages: list):
+    logging.log(logging.INFO, "Creating translation task")
     task = models.TranslationTask(text=text, languages=Languages)
     db.add(task)
     db.commit()

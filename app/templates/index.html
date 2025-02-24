@@ -128,8 +128,8 @@
   <script>
     async function submitTranslation(){
       const text = document.getElementById('TextToTranslate').value;
-      const languages = document.getElementById('languages').value;
-      console.log(text);
+      const languages = document.getElementById('languages').value.split(/\s*,\s*/);
+      console.log(languages);
       console.log(eval(languages === 0));
 
       if (!text || languages === 0 || !languages[0]){
@@ -147,9 +147,9 @@
       try {
         const response = await axios.post(`http://localhost:8000/translate`,{
           text: text,
-          languages: languages,
+          languages: languages
         });
-
+        console.log("after response");
         const taskId = response.data.task_id;
         alert(`Task ID: ${taskId}`) //
 
@@ -176,7 +176,7 @@
         progressBar.classList.add('bg-success');
         progressBar.style.width = '100%';
         progressText. textContent = 'Translation complete!';
-
+        console.log("Iam here");
         document.getElementById('translationResults').textContent = JSON.stringify(translationResult.translations, null, 2);
         document.getElementById('results').style.display = 'block';
       } catch (error) {
